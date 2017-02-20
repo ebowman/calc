@@ -38,7 +38,6 @@ object Calc27 extends App {
     def se = Coord(x, y - 1, z + 1)
   }
 
-
   val origin = Coord(0, 0, 0)
   val deadSet = Set(origin.w.w, origin.w.w.nw, origin.w.w.ne, origin.e.e, origin.e.e.nw, origin.e.e.ne)
   val grid = {
@@ -73,7 +72,6 @@ object Calc27 extends App {
     map.toMap
   }
 
-
   val a = origin.nw.nw.nw.nw.nw
   val b = origin.nw.nw
   val c = origin.nw.ne.ne
@@ -84,7 +82,7 @@ object Calc27 extends App {
     if (values.isEmpty) grids
     else {
       val value = values.head
-      grids.flatMap { grid =>
+      grids.par.flatMap { grid =>
         val gridValues = grid.values.toSet
 
         def legal(coord: Coord): Boolean = {
@@ -102,7 +100,7 @@ object Calc27 extends App {
           recurse(newGrids, values.tail)
         }
       }
-    }
+    }.seq
   }
 
   val alreadyInserted = grid.values.toSet
