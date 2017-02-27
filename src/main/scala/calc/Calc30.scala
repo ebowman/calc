@@ -43,7 +43,37 @@ object Calc30 extends App {
     else x
   }
 
-  case class Path(seq: Seq[Vertex], remaining: Set[Edge])
+  case class Path(seq: Seq[Vertex], remaining: Set[Edge]) {
+    def print: String = {
+      val grid = new Array[Array[Char]](15)
+      grid.indices.foreach { y =>
+        grid(y) = new Array[Char](15)
+        grid(y).indices.foreach(x => grid(y)(x) = ' ')
+      }
+      /*
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+      | | | | | | | |
+       - - - - - - -
+       */
+      seq.zip(seq.tail).map(normalize).foreach {
+        case ((x1, y1), (x2, y2)) if x1 == x2 => grid(14 - 2 * y2)(x1 * 2) = '|'
+        case ((x1, y1), (x2, y2)) if y1 == y2 => grid(13 - 2 * y2)(2 * x1 + 1) = '-'
+      }
+      grid.map(_.mkString("")).mkString("\n")
+    }
+  }
 
   def recurse(path: Path): Set[Path] = {
     if (path.seq.size > 1 && path.seq.head == path.seq.last) {
@@ -66,9 +96,11 @@ object Calc30 extends App {
     }.flatten
   }
 
-  val result = recurse(Path(Seq((0,0)), edges))
+  val result = recurse(Path(Seq((0, 0)), edges))
+  result.foreach(r => {
+    println(r.print)
+    println()
+  })
   println(result.count(_.seq.size == 25))
-  //val result = recurse(Path(Seq((0,0)), edges)).maxBy(_.seq.size)
-  //println(result)
-  //println(result.seq.size)
+
 }
