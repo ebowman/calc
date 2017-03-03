@@ -1,5 +1,7 @@
 package calc
 
+
+
 /**
   * The picture above shows a Hidato puzzle. The aim of the puzzle is to fill each white/light blue cell with an
   * integer between 1 and 85 (inclusive) so that each integer appears exactly once and consecutive integers appear
@@ -36,6 +38,12 @@ object Calc27 extends App {
     def sw = Coord(x - 1, y, z + 1)
 
     def se = Coord(x, y - 1, z + 1)
+
+    def toHex: Hex = Hex(q = x, r = z)
+  }
+
+  case class Hex(q: Int, r: Int) {
+    def toCoord: Coord = Coord(q, r, -q-r)
   }
 
   val origin = Coord(0, 0, 0)
@@ -71,6 +79,8 @@ object Calc27 extends App {
     deadSet.foreach(dead => map += dead -> -1)
     map.toMap
   }
+
+  println(grid.pretty)
 
   val a = origin.nw.nw.nw.nw.nw
   val b = origin.nw.nw
@@ -127,5 +137,19 @@ object Calc27 extends App {
     println(s"B = ${grid(b)}")
     println(s"C = ${grid(c)}")
     println(s"sum = ${grid(a) + grid(b) + grid(c)}")
+  }
+
+  implicit class GridPretty(val grid: Grid) extends AnyVal {
+    import dk.ilios.asciihexgrid.AsciiBoard
+    type Printer = dk.ilios.asciihexgrid.printers.LargeFlatAsciiHexPrinter
+    def pretty: String = {
+      val offset = 5
+      val board = new AsciiBoard(0, 10, 0, 10, new Printer)
+      grid.foreach {
+//        case (coord, -1) => board.printHex("#", "#", '#', coord.toHex.q + offset, coord.toHex.r + offset)
+        case (coord, value) => board.printHex(value.toString, s"${coord.toHex.q},${coord.toHex.r}", ' ', coord.toHex.q + offset, coord.toHex.r + offset)
+      }
+      board.prettPrint(false)
+    }
   }
 }
