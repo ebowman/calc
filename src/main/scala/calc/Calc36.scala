@@ -7,8 +7,8 @@ import scala.collection.immutable.IndexedSeq
   * the numbers in each row, column and main diagonal is the same. What is the sum of the integers at the corners of
   * this magic square (labeled by letters as shown above)? (A, B, C, D)
   * So ... the brute force didn't work, this is a huge search space (16! = 20,922,789,888,000).
-  * Searching the entire space would take about 500,000 years, but running for about a day it stumbled
-  * upon the first magic square, and computed the answer (34).
+  * Searching the entire space would take about 500,000 years, but running for about a day (80,868,000,000 magic
+  * squares, approximately) it stumbled upon the first magic square, and computed the answer (34).
   */
 object Calc36 extends App {
   //noinspection ZeroIndexToHead

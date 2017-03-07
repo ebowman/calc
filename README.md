@@ -43,5 +43,7 @@ For 1 _ 2 _ 3 _ 4 _ 5, there are 3 solutions:
 [success] Total time: 0 s, completed 18-Feb-2017 20:39:59
 ````
 
+This thing is growing as I solve more brilliant problems.
   
-  
+I borrowed code that doesn't seem to have been released to the mavenz from: https://github.com/cmelchior/asciihexgrid
+ 
